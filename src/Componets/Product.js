@@ -1,24 +1,44 @@
-
 import React from 'react'
+import "./Product.css";
 import { useSelector } from 'react-redux';
 import { styled } from 'styled-components'
+import { Link } from 'react-router-dom';
 
 const Product = () => {    
-    const products = useSelector((state)=>state.allProducts.product);
-    const{id,title} = products[0]
+    const products = useSelector((state)=>state.allProducts.products);
+    const renderList = products&& products.map((product)=>{
+        const {id,title,image,price,category} = product
+         return(
+            <>
+            <div key={id}>
+            <Link to={`/product/${id}`}>
+                 <div className='link_cards' >
+                  <div className='card'>
+                    <div className='image'>
+                        <img src={image} alt="Card Image"/>
+                    </div>
+                    <hr/>
+                 <div className='content'>
+                     <div className='header'>{title}</div>
+                     <div className='meta price'>$ {price}</div>
+                     <div className='meta'>{category}</div>
+                 </div>
+            
+         </div>
+       </div>
+       </Link>
+       </div>
+       </>
+        )
+     })
+    
     return (
-    <ProductStyled>
-      <h1>Product</h1>
-      <div className='link_cards'>
-        <div className='card'>
-            <div className='image'>
-                <div className='content'>
-                    <div className='header'>{title}</div>
-                </div>
-            </div>
-        </div>
-      </div>
-    </ProductStyled>
+        <ProductStyled>
+         
+            {
+            renderList
+         }
+           </ProductStyled> 
   )
 }
 
